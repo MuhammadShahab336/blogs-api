@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes')
 const authRoutes = require('./routes/authRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
+const { authMiddleware } = require('./middleware/authMiddleware');
 
 
 const app = express()
@@ -20,8 +21,8 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use("/api/users", userRoutes);
-app.use("/api/posts", postRoutes);
+app.use("/api/users", authMiddleware, userRoutes);
+app.use("/api/posts", authMiddleware, postRoutes);
 app.use("/api/auth", authRoutes);
 
 // 404 handler
